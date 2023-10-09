@@ -4,7 +4,7 @@
             <x-application-logo />
         </a>
         <div class="top-menu ml-10">
-            <div class="flex space-x-4">
+            <div class="flex space-x-6">
              <!--   <li>
                     <a class="flex space-x-2 items-center hover:text-yellow-900 text-sm text-yellow-500"
                         href="http://127.0.0.1:8000">
@@ -13,6 +13,10 @@
                 </li> -->
                 <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                     {{ __('Home') }}
+                </x-nav-link>
+                
+                <x-nav-link href="{{ route('posts.index') }}" :active="request()->routeIs('posts.index')">
+                    {{ __('Blog') }}
                 </x-nav-link>
 
                
@@ -26,8 +30,11 @@
         <!-- Settings Dropdown -->
 
         @auth()
+        
         @include('layouts.partials.header-auth')
+
         @else
+
         @include('layouts.partials.header-guest')
     @endauth
     </nav>
