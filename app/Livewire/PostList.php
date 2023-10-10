@@ -55,7 +55,7 @@ class PostList extends Component
             ->when($this->popular, function ($query) {
                 $query->popular();
             })
-           // ->search($this->search)
+            ->search($this->search)
             ->orderBy('published_at', $this->sort)
             ->paginate(3);
     }
