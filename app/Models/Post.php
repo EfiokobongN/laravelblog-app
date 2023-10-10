@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -24,10 +24,10 @@ class Post extends Model
         'featured',
     ];
 
-
     protected $casts = [
-      'published_at' => 'datetime',
-  ];
+        'published_at' => 'datetime',
+    ];
+
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -38,9 +38,19 @@ class Post extends Model
         return $this->belongsToMany(Category::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'post_like')->withTimestamps();
+    }
+
     public function scopePublished($query)
     {
-       $query->where('published_at', '<=', Carbon::now());
+        $query->where('published_at', '<=', Carbon::now());
     }
 
     public function scopeWithCategory($query, string $category)
@@ -50,17 +60,27 @@ class Post extends Model
         });
     }
 
-    
+
     public function scopeFeatured($query)
     {
-       $query->where('featured', true);
+        $query->where('featured', true);
+    }
+
+    public function scopePopular($query)
+    {
+        $query->withCount('likes')
+            ->orderBy("likes_count", 'desc');
+    }
+
+    public function scopeSearch($query, string $search = '')
+    {
+        $query->where('title', 'like', "%{$search}%");
     }
 
     public function getExcerpt()
     {
         return Str::limit(strip_tags($this->body), 150);
     }
-
 
     public function getReadingTime()
     {
