@@ -17,6 +17,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/create-symlink', function(){
     symlink(storage_path('/app/public'), public_path('storage'));
 });
+
+Route::get('/run-migrate', function () {
+    try {
+        // Clear cache and optimize
+        Artisan::call('optimize:clear');
+        
+        // Run migrations and seed the database
+        Artisan::call('migrate:fresh');
+
+        return "Migration and Seeding Executed Successfully";
+    } catch (\Exception $e) {
+        return "Error occurred: " . $e->getMessage();
+    }
+});
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/blog', [PostController::class, 'index'])->name('posts.index');
