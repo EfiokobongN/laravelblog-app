@@ -1,0 +1,16 @@
+{
+  "public/images/IDC-Directions.jpg": {
+    "file": "assets/IDC-Directions-270ffc40.jpg",
+    "src": "public/images/IDC-Directions.jpg"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-01fd82ff.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-02317797.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}
