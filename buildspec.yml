@@ -16,7 +16,6 @@ phases:
     commands:
       - composer install
       - npm install
-      run: npm run dev
 artifacts:
   files:
     - '**/*'
